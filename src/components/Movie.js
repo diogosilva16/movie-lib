@@ -74,7 +74,7 @@ const Movie = () => {
               <Grid item md={8} xs={12}>
                 <Box className="movieDetails">
                   <Box className="movieText">
-                    <Typography className="movieTitle">
+                    <Typography sx={{fontSize: "3rem"}} className="movieTitle">
                       {movieInfo.title}
                     </Typography>
                     <Typography variant="h6">{movieInfo.tagline}</Typography>
