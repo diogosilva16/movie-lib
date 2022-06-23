@@ -1,0 +1,29 @@
+.movieTitle{
+    font-size: 2rem;
+}
+
+.movieCard{
+    padding: 10px;
+}
+
+.movieCard img{
+    border-radius: 20px;
+}
+
+.movieDetails{
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.movieGenres, .movieSynopsis, .movieRating, .movieButtons, .movieProviders{
+    padding-top: 20px;
+}
+
+.movieButtons button{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
