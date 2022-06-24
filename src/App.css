@@ -4,10 +4,19 @@
   margin: 0;
 }
 
+body{
+  background-color: #e3e3e3;
+}
+
 .home, .popular, .top-rated {
   display: flex;
   height: 90vh;
   align-items: center;
   justify-content: center;
   font-size: 3rem;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
 }

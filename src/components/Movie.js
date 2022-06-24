@@ -14,6 +14,7 @@ const Movie = () => {
   const [hasError, setHasError] = useState(false);
   const [movieInfo, setMovieInfo] = useState({});
   const [movieProviders, setMovieProviders] = useState([]);
+  const [movieLinks, setMovieLinks] = useState([]);
 
   const getMovieDetails = async () => {
     setHasError(false);
@@ -42,13 +43,30 @@ const Movie = () => {
     }
     setIsLoading(false);
   };
+
+  const getMovieLinks = async () => {
+    setHasError(false);
+    try {
+      let response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/external_ids?api_key=${API_KEY}`
+      );
+      const data = await response.json();
+      setMovieLinks(data);
+    } catch (error) {
+      setHasError(true);
+    }
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     getMovieDetails();
     getMovieProviders();
+    getMovieLinks();
   }, [isLoading]);
 
   console.log(movieInfo);
   console.log(movieProviders);
+  console.log(movieLinks);
 
   return (
     <>
@@ -62,6 +80,7 @@ const Movie = () => {
               direction="row"
               justifyContent="center"
               alignItems="flex-start"
+              sx={{ backgroundColor: "white", borderRadius: "30px" }}
             >
               <Grid item md={4} xs={12}>
                 <div className="movieCard">
@@ -73,50 +92,86 @@ const Movie = () => {
               </Grid>
               <Grid item md={8} xs={12}>
                 <Box className="movieDetails">
-                  <Box className="movieText">
-                    <Typography sx={{fontSize: "3rem"}} className="movieTitle">
-                      {movieInfo.title}
-                    </Typography>
-                    <Typography variant="h6">{movieInfo.tagline}</Typography>
-                    <Typography>
-                      Release date: {movieInfo.release_date}
-                    </Typography>
-                  </Box>
+                  <Grid container>
+                    <Grid item>
+                      <Typography className="movieTitle">
+                        {movieInfo.title}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography className="movieTagline">
+                        {movieInfo.tagline}
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      container
+                      justifyContent="flex-end"
+                      mr={10}
+                    >
+                      <Typography>
+                        <span>Release date:</span> {movieInfo.release_date}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                   <Box className="movieRating">
-                    <Typography>Rating</Typography>
-                    <Typography>{movieInfo.vote_average}/10</Typography>
+                    <Typography className="rating">Rating</Typography>
+                    <Typography className="movieR">
+                      {movieInfo.vote_average}/10
+                    </Typography>
                   </Box>
                   <Box className="movieGenres">
-                    <Typography>Genres</Typography>
-                    <Typography>
-                      {movieInfo.genres.map((genre, key) => (
-                        <Link to={`/genre/${genre.id}`}>
-                          <span
-                            key={key}
-                          >
-                            {genre.name}
-                          </span>
-                        </Link>
-                      ))}
-                    </Typography>
+                    <Grid container>
+                      <Grid item xs={12}>
+                        <Typography className="genres">Genres</Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography>
+                          {movieInfo.genres.map((genre, key) => (
+                            <Link to={`/genre/${genre.id}`}>
+                              <Button
+                                variant="contained"
+                                color="error"
+                                key={key}
+                              >
+                                {genre.name}
+                              </Button>
+                            </Link>
+                          ))}
+                        </Typography>
+                      </Grid>
+                    </Grid>
                   </Box>
                   <Box className="movieSynopsis">
-                    <Typography>Synopsis</Typography>
+                    <Typography className="synopsis">Synopsis</Typography>
                     <Typography>{movieInfo.overview}</Typography>
                   </Box>
                   <Box className="movieButtons">
-                    <Button variant="contained" color="secondary">
-                      <Typography>IMDB</Typography>
-                    </Button>
-                    <Button variant="contained" color="secondary">
-                      <Typography>Website</Typography>
-                    </Button>
-                    <Button variant="contained" color="secondary">
-                      <Typography>Trailer</Typography>
-                    </Button>
+                    <Grid container justifyContent="center" alignItems="center">
+                      <Grid item xs={12} md={4}>
+                        <Typography className="extLinks">
+                          External Links
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6} md={4}>
+                        <Button variant="contained" color="secondary">
+                          <a href={`https://www.imdb.com/title/${movieLinks.imdb_id}`}>
+                            <Typography>IMDB</Typography>
+                          </a>
+                        </Button>
+                      </Grid>
+                      <Grid item xs={6} md={4}>
+                        <Button variant="contained" color="secondary">
+                          <Typography>TRAILER</Typography>
+                        </Button>
+                      </Grid>
+                    </Grid>
                   </Box>
                   <Box className="movieProviders">
-                    <Typography>Providers in Portugal</Typography>
+                    <Typography className="providers">
+                      Providers in Portugal
+                    </Typography>
                     {movieProviders.hasOwnProperty("PT") &&
                     movieProviders.PT.hasOwnProperty("flatrate") ? (
                       movieProviders.PT.flatrate.map((provider, key) => (
@@ -125,9 +180,6 @@ const Movie = () => {
                             src={`https://image.tmdb.org/t/p/w342/${provider.logo_path}`}
                             width="100"
                           />
-                          <Typography key={key}>
-                            {provider.provider_name}
-                          </Typography>
                         </Box>
                       ))
                     ) : (

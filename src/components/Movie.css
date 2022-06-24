@@ -1,5 +1,11 @@
 .movieTitle{
     font-size: 3rem;
+    font-weight: bold;
+}
+
+.movieTagline{
+    font-size: 1.5rem;
+    font-weight: 300;
 }
 
 .movieCard{
@@ -18,12 +24,30 @@
     padding-bottom: 20px;
 }
 
+.movieDetails span {
+    margin-left: 0;
+    font-size: 1rem;
+}
+
+.rating, .genres, .synopsis, .extLinks, .providers{
+    font-weight: bold;
+}
+
+.movieR{
+    font-weight: 400;
+}
+
 .movieGenres, .movieSynopsis, .movieRating, .movieButtons, .movieProviders{
     padding-top: 20px;
 }
 
-.movieButtons button{
-    margin-left: 10px;
+.movieGenres button {
     margin-right: 10px;
+    width: 100px;
+    margin-top: 10px;
+}
+.movieButtons button{
+    margin-right: 10px;
+    width: 100px;
 }
 
