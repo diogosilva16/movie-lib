@@ -6,7 +6,7 @@ import Loader from "../../components/Loader";
 import { Link } from "react-router-dom";
 import BuildModal from "../../components/BuildModal";
 import Portal from "../../components/utils/Portal";
-
+import ErrorHandler from "../../components/ErrorHandler";
 const Movie = (props) => {
   const API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
 
@@ -69,13 +69,18 @@ const Movie = (props) => {
         `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}`
       );
       const data = await response.json();
-
-      setMovieVideo(data.results.filter(x => x.type === "Trailer").at(-1).key);
+      if (data.results.length > 0 ) {
+        setMovieVideo(
+          data.results.filter((x) => x.type === "Trailer").at(-1).key
+        );
+      } else {
+        setMovieVideo("");
+      }
     } catch (error) {
       setHasError(true);
     }
     setIsLoading(false);
-  }
+  };
 
   const openPortal = () => {
     setPortalOpen(!portalOpen);
@@ -88,16 +93,50 @@ const Movie = (props) => {
     getMovieVideo();
   }, [isLoading]);
 
-  // console.log(movieInfo);
-  // console.log(movieProviders);
-  // console.log(movieLinks);
   console.log(movieVideo);
+
+  const _setMovieGenres = () => {
+    if (movieInfo.genres) {
+      return movieInfo.genres.map((genre, key) => (
+        <Typography key={key}>
+          <Link to={`/genre/${genre.id}`}>
+            <Button variant="contained" color="error">
+              {genre.name}
+            </Button>
+          </Link>
+        </Typography>
+      ));
+    }
+  };
+
+  const _setMovieProviders = () => {
+    if (movieProviders) {
+      return movieProviders.hasOwnProperty("PT") &&
+        movieProviders.PT.hasOwnProperty("flatrate") ? (
+        movieProviders.PT.flatrate.map((provider, key) => (
+          <Box>
+            <img
+              src={`https://image.tmdb.org/t/p/w342/${provider.logo_path}`}
+              width="100"
+            />
+          </Box>
+        ))
+      ) : (
+        <Box>
+          <Typography variant="h2">
+            No streaming services available. Can only be bought or rent at the
+            moment.
+          </Typography>
+        </Box>
+      );
+    }
+  };
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
+      {!isLoading && hasError && <ErrorHandler error={hasError} />}
+      {isLoading && <Loader />}
+      {!isLoading && !hasError && (
         <Container maxWidth="xl">
           <Box pt={10} pb={20}>
             <Grid
@@ -151,20 +190,8 @@ const Movie = (props) => {
                       <Grid item xs={12}>
                         <Typography variant="h2">Genres</Typography>
                       </Grid>
-                      <Grid item>
-                        <Typography>
-                          {movieInfo.genres.map((genre, key) => (
-                            <Link to={`/genre/${genre.id}`}>
-                              <Button
-                                variant="contained"
-                                color="error"
-                                key={key}
-                              >
-                                {genre.name}
-                              </Button>
-                            </Link>
-                          ))}
-                        </Typography>
+                      <Grid item container>
+                        {_setMovieGenres()}
                       </Grid>
                     </Grid>
                   </Box>
@@ -211,24 +238,7 @@ const Movie = (props) => {
                   </Box>
                   <Box className="movieProviders">
                     <Typography variant="h2">Providers in Portugal</Typography>
-                    {movieProviders.hasOwnProperty("PT") &&
-                    movieProviders.PT.hasOwnProperty("flatrate") ? (
-                      movieProviders.PT.flatrate.map((provider, key) => (
-                        <Box>
-                          <img
-                            src={`https://image.tmdb.org/t/p/w342/${provider.logo_path}`}
-                            width="100"
-                          />
-                        </Box>
-                      ))
-                    ) : (
-                      <Box>
-                        <Typography variant="h2">
-                          No streaming services available. Can only be bought or
-                          rent at the moment.
-                        </Typography>
-                      </Box>
-                    )}
+                    {_setMovieProviders()}
                   </Box>
                 </Box>
               </Grid>
