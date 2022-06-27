@@ -2,10 +2,12 @@ import { Grid, Typography, Box, Container, Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./Movie.css";
-import Loader from "./Loader";
+import Loader from "../../components/Loader";
 import { Link } from "react-router-dom";
+import BuildModal from "../../components/BuildModal";
+import Portal from "../../components/utils/Portal";
 
-const Movie = () => {
+const Movie = (props) => {
   const API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
 
   const { id } = useParams();
@@ -15,6 +17,8 @@ const Movie = () => {
   const [movieInfo, setMovieInfo] = useState({});
   const [movieProviders, setMovieProviders] = useState([]);
   const [movieLinks, setMovieLinks] = useState([]);
+  const [portalOpen, setPortalOpen] = useState(false);
+  const [movieVideo, setMovieVideo] = useState([]);
 
   const getMovieDetails = async () => {
     setHasError(false);
@@ -58,15 +62,36 @@ const Movie = () => {
     setIsLoading(false);
   };
 
+  const getMovieVideo = async () => {
+    setHasError(false);
+    try {
+      let response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}`
+      );
+      const data = await response.json();
+
+      setMovieVideo(data.results.filter(x => x.type === "Trailer").at(-1).key);
+    } catch (error) {
+      setHasError(true);
+    }
+    setIsLoading(false);
+  }
+
+  const openPortal = () => {
+    setPortalOpen(!portalOpen);
+  };
+
   useEffect(() => {
     getMovieDetails();
     getMovieProviders();
     getMovieLinks();
+    getMovieVideo();
   }, [isLoading]);
 
-  console.log(movieInfo);
-  console.log(movieProviders);
-  console.log(movieLinks);
+  // console.log(movieInfo);
+  // console.log(movieProviders);
+  // console.log(movieLinks);
+  console.log(movieVideo);
 
   return (
     <>
@@ -94,12 +119,10 @@ const Movie = () => {
                 <Box className="movieDetails">
                   <Grid container>
                     <Grid item>
-                      <Typography className="movieTitle">
-                        {movieInfo.title}
-                      </Typography>
+                      <Typography variant="h1">{movieInfo.title}</Typography>
                     </Grid>
                     <Grid item xs={12}>
-                      <Typography className="movieTagline">
+                      <Typography variant="subtitle1">
                         {movieInfo.tagline}
                       </Typography>
                     </Grid>
@@ -110,21 +133,23 @@ const Movie = () => {
                       justifyContent="flex-end"
                       mr={10}
                     >
-                      <Typography>
-                        <span>Release date:</span> {movieInfo.release_date}
+                      <Typography variant="body2">
+                        Release date: {movieInfo.release_date}
                       </Typography>
                     </Grid>
                   </Grid>
                   <Box className="movieRating">
-                    <Typography className="rating">Rating</Typography>
-                    <Typography className="movieR">
+                    <Typography variant="h2" className="rating">
+                      Rating
+                    </Typography>
+                    <Typography variant="body2">
                       {movieInfo.vote_average}/10
                     </Typography>
                   </Box>
                   <Box className="movieGenres">
                     <Grid container>
                       <Grid item xs={12}>
-                        <Typography className="genres">Genres</Typography>
+                        <Typography variant="h2">Genres</Typography>
                       </Grid>
                       <Grid item>
                         <Typography>
@@ -144,34 +169,48 @@ const Movie = () => {
                     </Grid>
                   </Box>
                   <Box className="movieSynopsis">
-                    <Typography className="synopsis">Synopsis</Typography>
-                    <Typography>{movieInfo.overview}</Typography>
+                    <Typography variant="h2">Synopsis</Typography>
+                    <Typography variant="body2">
+                      {movieInfo.overview}
+                    </Typography>
                   </Box>
                   <Box className="movieButtons">
                     <Grid container justifyContent="center" alignItems="center">
                       <Grid item xs={12} md={4}>
-                        <Typography className="extLinks">
+                        <Typography variant="h2" sx={{ paddingTop: 0 }}>
                           External Links
                         </Typography>
                       </Grid>
                       <Grid item xs={6} md={4}>
-                        <Button variant="contained" color="secondary">
-                          <a href={`https://www.imdb.com/title/${movieLinks.imdb_id}`}>
+                        <a
+                          href={`https://www.imdb.com/title/${movieLinks.imdb_id}`}
+                        >
+                          <Button variant="contained" color="secondary">
                             <Typography>IMDB</Typography>
-                          </a>
-                        </Button>
+                          </Button>
+                        </a>
                       </Grid>
                       <Grid item xs={6} md={4}>
-                        <Button variant="contained" color="secondary">
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={openPortal}
+                        >
                           <Typography>TRAILER</Typography>
                         </Button>
+                        {portalOpen && (
+                          <Portal id="modal-root">
+                            <BuildModal
+                              openPortal={openPortal}
+                              videoId={movieVideo}
+                            />
+                          </Portal>
+                        )}
                       </Grid>
                     </Grid>
                   </Box>
                   <Box className="movieProviders">
-                    <Typography className="providers">
-                      Providers in Portugal
-                    </Typography>
+                    <Typography variant="h2">Providers in Portugal</Typography>
                     {movieProviders.hasOwnProperty("PT") &&
                     movieProviders.PT.hasOwnProperty("flatrate") ? (
                       movieProviders.PT.flatrate.map((provider, key) => (
@@ -184,7 +223,7 @@ const Movie = () => {
                       ))
                     ) : (
                       <Box>
-                        <Typography>
+                        <Typography variant="h2">
                           No streaming services available. Can only be bought or
                           rent at the moment.
                         </Typography>
