@@ -23,8 +23,6 @@ const Genre = () => {
   const [movieList, setMovieList] = useState({});
   const [movieGenres, setMovieGenres] = useState({ genres: [] });
 
-  console.log(isLoading);
-
   const getMoviesByGenre = async () => {
     setHasError(false);
     try {
@@ -59,10 +57,6 @@ const Genre = () => {
     getGenres();
   }, [isLoading]);
 
-  // const genres = movieGenres.genres
-  //   ? movieGenres.genres.filter((genre) => genre.id === Number(id))
-  //   : [];
-
   const _setMovieList = () => {
     if (movieList.results) {
       return movieList.results.map((movie, key) => (
@@ -94,13 +88,11 @@ const Genre = () => {
 
   return (
     <>
-      {/* {setHasError(true)} */}
       {!isLoading && hasError && <ErrorHandler error={hasError} />}
       {isLoading && <Loader />}
-      {/* {!isLoading  && !hasError && (<MovieList title={genres} info={movieList} isLoading={isLoading} />)}; */}
-      {/* {!isLoading && !hasError && (console.log(movieGenres.genres.filter((genre) => genre.id === Number(id)).name))} */}
-
-      {!isLoading && !hasError && (
+      {!isLoading  && !hasError && (<MovieList title={_getGenreName()} info={movieList} />)};
+    
+      {/* {!isLoading && !hasError && (
         <Container maxWidth="xl">
           <Box pt={5}>
             <Typography variant="h1">{_getGenreName()}</Typography>
@@ -110,7 +102,7 @@ const Genre = () => {
             {_setMovieList()}
           </Grid>
         </Container>
-      )}
+      )} */}
     </>
   );
 };

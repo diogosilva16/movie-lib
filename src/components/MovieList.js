@@ -15,28 +15,30 @@ const MovieList = (props) => {
   const { title, info, isLoading, error } = props;
 
   const _setMovieList = (movieList) => {
-    return (
-      <>
-        {movieList.results.map((movie, key) => (
-          <Grid item xs={6} md={3} key={key}>
-            <Link to={`/movie/${movie.id}`}>
-              <Card className="card" sx={{ height: 650 }}>
-                <CardMedia
-                  component="img"
-                  image={`https://image.tmdb.org/t/p/w342/${movie.poster_path}`}
-                  alt={movie.title}
-                />
-                <CardContent>
-                  <Typography align="center" variant="h6">
-                    {movie.title}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Link>
-          </Grid>
-        ))}
-      </>
-    );
+    if (movieList.results) {
+      return (
+        <>
+          {movieList.results.map((movie, key) => (
+            <Grid item xs={6} md={3} key={key}>
+              <Link to={`/movie/${movie.id}`}>
+                <Card className="card" sx={{ height: 650 }}>
+                  <CardMedia
+                    component="img"
+                    image={`https://image.tmdb.org/t/p/w342/${movie.poster_path}`}
+                    alt={movie.title}
+                  />
+                  <CardContent>
+                    <Typography align="center" variant="h6">
+                      {movie.title}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Link>
+            </Grid>
+          ))}
+        </>
+      );
+    }
   };
 
   return (
@@ -45,7 +47,7 @@ const MovieList = (props) => {
         <Loader />
       ) : (
         <Container maxWidth="xl">
-          <Box pt={5}>
+          <Box pt={15}>
             <Typography variant="h4">{title}</Typography>
             <Typography variant="h6">Movies</Typography>
           </Box>

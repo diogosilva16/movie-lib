@@ -69,7 +69,7 @@ const Movie = (props) => {
         `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}`
       );
       const data = await response.json();
-      if (data.results.length > 0 ) {
+      if (data.results.length > 0) {
         setMovieVideo(
           data.results.filter((x) => x.type === "Trailer").at(-1).key
         );
@@ -100,9 +100,7 @@ const Movie = (props) => {
       return movieInfo.genres.map((genre, key) => (
         <Typography key={key}>
           <Link to={`/genre/${genre.id}`}>
-            <Button variant="contained" color="error">
-              {genre.name}
-            </Button>
+            <Button variant="contained">{genre.name}</Button>
           </Link>
         </Typography>
       ));
@@ -123,7 +121,7 @@ const Movie = (props) => {
         ))
       ) : (
         <Box>
-          <Typography variant="h2">
+          <Typography variant="body2">
             No streaming services available. Can only be bought or rent at the
             moment.
           </Typography>
@@ -138,13 +136,20 @@ const Movie = (props) => {
       {isLoading && <Loader />}
       {!isLoading && !hasError && (
         <Container maxWidth="xl">
-          <Box pt={10} pb={20}>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            minHeight="100vh"
+            paddingTop={{ xs: "7rem", xl: "0" }}
+            paddingBottom={{ xs: "5rem", xl: "0" }}
+          >
             <Grid
               container
               direction="row"
               justifyContent="center"
               alignItems="flex-start"
-              sx={{ backgroundColor: "white", borderRadius: "30px" }}
+              sx={{ backgroundColor: "#BBBADB", borderRadius: "30px" }}
             >
               <Grid item md={4} xs={12}>
                 <div className="movieCard">
@@ -182,7 +187,7 @@ const Movie = (props) => {
                       Rating
                     </Typography>
                     <Typography variant="body2">
-                      {movieInfo.vote_average}/10
+                      {Math.round(movieInfo.vote_average * 100) / 100}/10
                     </Typography>
                   </Box>
                   <Box className="movieGenres">
@@ -197,7 +202,7 @@ const Movie = (props) => {
                   </Box>
                   <Box className="movieSynopsis">
                     <Typography variant="h2">Synopsis</Typography>
-                    <Typography variant="body2">
+                    <Typography variant="body2" paddingRight={5}>
                       {movieInfo.overview}
                     </Typography>
                   </Box>
@@ -212,15 +217,15 @@ const Movie = (props) => {
                         <a
                           href={`https://www.imdb.com/title/${movieLinks.imdb_id}`}
                         >
-                          <Button variant="contained" color="secondary">
+                          <Button variant="contained">
                             <Typography>IMDB</Typography>
                           </Button>
                         </a>
                       </Grid>
                       <Grid item xs={6} md={4}>
                         <Button
+                          className="extBtn"
                           variant="contained"
-                          color="secondary"
                           onClick={openPortal}
                         >
                           <Typography>TRAILER</Typography>

@@ -7,19 +7,19 @@ export const MenuData = [
     {
         title: 'Home',
         path: '/',
-        icon: <AiIcons.AiFillHome />,
+        // icon: <AiIcons.AiFillHome />,
         cName: 'nav-text'
     },
     {
         title: 'Popular',
         path: '/popular',
-        icon: <AiIcons.AiFillHome />,
+        // icon: <AiIcons.AiFillHome />,
         cName: 'nav-text'
     },
     {
         title: 'Top Rated',
         path: '/top-rated',
-        icon: <AiIcons.AiFillHome />,
+        // icon: <AiIcons.AiFillHome />,
         cName: 'nav-text'
     },
 ]
