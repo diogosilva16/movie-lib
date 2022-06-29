@@ -19,9 +19,9 @@ const MovieList = (props) => {
       return (
         <>
           {movieList.results.map((movie, key) => (
-            <Grid item xs={6} md={3} key={key}>
+            <Grid item xs={12} md={3} key={key}>
               <Link to={`/movie/${movie.id}`}>
-                <Card className="card" sx={{ height: 650 }}>
+                <Card className="card" sx={{ height: "100%"}}>
                   <CardMedia
                     component="img"
                     image={`https://image.tmdb.org/t/p/w342/${movie.poster_path}`}
@@ -47,7 +47,7 @@ const MovieList = (props) => {
         <Loader />
       ) : (
         <Container maxWidth="xl">
-          <Box pt={15}>
+          <Box pt={10}>
             <Typography variant="h4">{title}</Typography>
             <Typography variant="h6">Movies</Typography>
           </Box>

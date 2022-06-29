@@ -57,6 +57,25 @@ const MainMenu = () => {
   //     </IconContext.Provider>
   //   </>
 
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+
   return (
     <AppBar position="fixed">
       <Container maxWidth="xl">
@@ -78,14 +97,26 @@ const MainMenu = () => {
           >
             MOVIE DATABASE
           </Typography>
-          <Box sx={{ flexGrow: 1, display: "flex" }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {MenuData.map((page, index) => {
               return (
                 <li key={index} className={page.cName}>
-                <Link to={page.path}>
-                  <span>{page.title}</span>
-                </Link>
-              </li>
+                  <Link to={page.path}>
+                    <span>{page.title}</span>
+                  </Link>
+                </li>
               );
             })}
           </Box>

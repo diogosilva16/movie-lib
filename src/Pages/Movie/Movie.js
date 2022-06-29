@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import BuildModal from "../../components/BuildModal";
 import Portal from "../../components/utils/Portal";
 import ErrorHandler from "../../components/ErrorHandler";
+
 const Movie = (props) => {
   const API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
 
@@ -149,12 +150,11 @@ const Movie = (props) => {
               direction="row"
               justifyContent="center"
               alignItems="flex-start"
-              sx={{ backgroundColor: "#BBBADB", borderRadius: "30px" }}
+              sx={{ backgroundColor: "#BBDDF2", borderRadius: "30px"}}
             >
               <Grid item md={4} xs={12}>
                 <div className="movieCard">
-                  <img
-                    width="100%"
+                  <img width="100%"
                     src={`https://image.tmdb.org/t/p/w342/${movieInfo.poster_path}`}
                   />
                 </div>
@@ -215,7 +215,7 @@ const Movie = (props) => {
                       </Grid>
                       <Grid item xs={6} md={4}>
                         <a
-                          href={`https://www.imdb.com/title/${movieLinks.imdb_id}`}
+                          href={`https://www.imdb.com/title/${movieLinks.imdb_id}`} target="_blank"
                         >
                           <Button variant="contained">
                             <Typography>IMDB</Typography>

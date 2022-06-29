@@ -33,14 +33,17 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    padding: 8px 0px 8px 16px;
     list-style: none;
-    height: 60px;
+}
+
+.nav-text:hover {
+    border: 1px solid rgba(10,10,10);
+    border-radius: 20px;
 }
 
 .nav-text a {
     text-decoration: none;
-    color: rgb(250,250,250);
+    color: rgb(10,10,10);
     font-weight: 600;
     font-size: 18px;
     width: 100%;
@@ -48,9 +51,6 @@
     display: flex;
     align-items: center;
     padding: 0 16px;
-}
-.nav-text a:hover {
-    color: rgba(250,250,250);
 }
 
 .nav-menu-items {
@@ -67,5 +67,5 @@
 }
 
 span {
-    margin-left: 16px;
+    /* margin-left: 16px; */
 }

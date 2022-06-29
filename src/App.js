@@ -1,12 +1,14 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import MainMenu from "./components/Navbar/MainMenu";
 import Popular from "./Pages/Popular/Popular";
 import Home from "./Pages/Home/Home";
-import { Container, Grid, ThemeProvider } from "@mui/material";
+import { Grid, ThemeProvider, Box } from "@mui/material";
 import Theme from "./components/utils/Theme";
 import Movie from "./Pages/Movie/Movie";
 import Genre from "./Pages/Genres/Genre";
+import MobileMenu from "./components/Navbar/MobileMenu";
+
+const drawerWidth = 280;
 
 function App() {
   return (
@@ -14,16 +16,22 @@ function App() {
       <ThemeProvider theme={Theme}>
         <BrowserRouter>
           <Grid container>
-            <MainMenu />
-            {/* <Container maxWidth="xl"> */}
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/popular" element={<Popular />} />
-              <Route path="/movie/:id" element={<Movie />} />
-              <Route path="/genre/:id" element={<Genre />} />
-            </Routes>
-            {/* </Container> */}
-            {/* <Footer /> */}
+            <MobileMenu />
+            <Box
+              component="main"
+              sx={{
+                flexGrow: 1,
+                p: 3,
+                width: { sm: `calc(100% - ${drawerWidth}px)` },
+              }}
+            >
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/popular" element={<Popular />} />
+                <Route path="/movie/:id" element={<Movie />} />
+                <Route path="/genre/:id" element={<Genre />} />
+              </Routes>
+            </Box>
           </Grid>
         </BrowserRouter>
       </ThemeProvider>

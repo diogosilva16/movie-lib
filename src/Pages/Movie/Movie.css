@@ -9,7 +9,7 @@
 }
 
 .movieCard{
-    padding: 10px;
+    /* padding: 10px; */
 }
 
 .movieCard img{
@@ -49,8 +49,4 @@
 .movieButtons button{
     margin-right: 10px;
     width: 100px;
-}
-
-.extBtn {
-    
 }

@@ -1,18 +1,9 @@
-import Reac, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import MovieList from "../../components/MovieList";
 import Loader from "../../components/Loader";
 import ErrorHandler from "../../components/ErrorHandler";
-import {
-  Container,
-  Box,
-  Typography,
-  Grid,
-  Card,
-  CardMedia,
-  CardContent,
-} from "@mui/material";
-import { Link } from "react-router-dom";
+
 
 const Genre = () => {
   const API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
@@ -51,34 +42,11 @@ const Genre = () => {
     }
     setIsLoading(false);
   };
-
+  
   useEffect(() => {
     getMoviesByGenre();
     getGenres();
-  }, [isLoading]);
-
-  const _setMovieList = () => {
-    if (movieList.results) {
-      return movieList.results.map((movie, key) => (
-        <Grid item xs={6} md={3} key={key}>
-          <Link to={`/movie/${movie.id}`}>
-            <Card className="card" sx={{ height: 650 }}>
-              <CardMedia
-                component="img"
-                image={`https://image.tmdb.org/t/p/w342/${movie.poster_path}`}
-                alt={movie.title}
-              />
-              <CardContent>
-                <Typography align="center" variant="h6">
-                  {movie.title}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Link>
-        </Grid>
-      ));
-    }
-  };
+  }, [id], [isLoading]);
 
   const _getGenreName = () => {
     if (movieGenres.genres != "") {
@@ -91,18 +59,6 @@ const Genre = () => {
       {!isLoading && hasError && <ErrorHandler error={hasError} />}
       {isLoading && <Loader />}
       {!isLoading  && !hasError && (<MovieList title={_getGenreName()} info={movieList} />)};
-    
-      {/* {!isLoading && !hasError && (
-        <Container maxWidth="xl">
-          <Box pt={5}>
-            <Typography variant="h1">{_getGenreName()}</Typography>
-            <Typography variant="h6">Movies</Typography>
-          </Box>
-          <Grid container spacing={5} columnSpacing={5} pt={10} pb={20}>
-            {_setMovieList()}
-          </Grid>
-        </Container>
-      )} */}
     </>
   );
 };
