@@ -3,8 +3,8 @@
 
 ### Prerequisites
 
-You need to create an API KEY in [The Movie Database API](https://www.themoviedb.org/documentation/api)
-Create an .env.local file on the root of the project and put your API key
+You need to create an API KEY in [The Movie Database API](https://www.themoviedb.org/documentation/api).
+Create an .env file on the root of the project and put your API key
 
 ```
 REACT_APP_MOVIE_API_KEY=yourapikeyhere
