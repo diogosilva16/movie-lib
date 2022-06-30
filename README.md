@@ -1,4 +1,4 @@
-#Movie Library - ReactJS
+# Movie Library - ReactJS
 ##### Personal project to enhance my React skills. No state management library has been used (yet), so the data is stored in the browser. Will be updated as time goes on (new versions will be made with different technologies, ie: Redux, ...).
 
 ### Prerequisites
