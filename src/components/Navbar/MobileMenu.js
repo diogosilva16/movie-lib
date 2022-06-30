@@ -10,9 +10,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import { MenuData } from "./MenuData";
 import "./Navbar.css";
-import { Link, useParams} from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button, Typography, Grid } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
+import SearchBox from "./SearchBox.js";
 const drawerWidth = 280;
 
 function MobileMenu(props) {
@@ -28,7 +29,6 @@ function MobileMenu(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
 
   const getGenres = async () => {
     setHasError(false);
@@ -48,13 +48,14 @@ function MobileMenu(props) {
     getGenres();
   }, [isLoading]);
 
-
   const drawer = (
     <Box pt={5}>
-      <Grid container justifyContent="center">
-        <Typography>Movie Library</Typography>
+      <Grid container justifyContent="center" paddingBottom={5}>
+        <Typography variant="subtitle2">Movie Library</Typography>
       </Grid>
+      <Divider />
       <List>
+      <Typography variant="h3" m={1} paddingBottom={2}>Discover</Typography>
         {MenuData.map((page, index) => {
           return (
             <Box m={1} className="nav-text">
@@ -71,12 +72,17 @@ function MobileMenu(props) {
       </List>
       <Divider />
       <List>
+        <Typography variant="h3" m={1} paddingBottom={2}>Genres</Typography>
         {genreList.genres.map((genre, index) => {
           return (
             <Box m={1} className="nav-text">
               <Link to={`/genre/${genre.id}`}>
                 <li key={index}>
-                  <Button size="small" startIcon={<CircleIcon />} onClick={getGenres}>
+                  <Button
+                    size="small"
+                    startIcon={<CircleIcon />}
+                    onClick={getGenres}
+                  >
                     {genre.name}
                   </Button>
                 </li>
@@ -85,6 +91,20 @@ function MobileMenu(props) {
           );
         })}
       </List>
+      <Divider />
+      <Grid container justifyContent="center" padding={3}>
+        <Typography variant="caption">
+          This product uses the TMDB API but is not endorsed or certified by
+          TMDB.
+        </Typography>
+        <Box padding={5} paddingBottom={1}>
+          <img
+            src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_1-5bdc75aaebeb75dc7ae79426ddd9be3b2be1e342510f8202baf6bffa71d7f5c4.svg"
+            alt="TMDB logo"
+            width={100}
+          />
+        </Box>
+      </Grid>
     </Box>
   );
 
@@ -95,11 +115,13 @@ function MobileMenu(props) {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
-        position="fixed"
+        position="absolute"
         sx={{
-          display: { md: "none" },
+          // display: { md: "none" },
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          backgroundColor: "transparent",
+          boxShadow: "none",
         }}
       >
         <Toolbar>
@@ -110,8 +132,11 @@ function MobileMenu(props) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{color: "black"}}/>
           </IconButton>
+          <Box padding={1}>
+            <SearchBox  />
+          </Box>
         </Toolbar>
       </AppBar>
       <Box

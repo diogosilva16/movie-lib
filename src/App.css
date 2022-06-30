@@ -6,7 +6,7 @@
 
 html,
 body{
-  background-color: #F2F2F2;
+  background-color: #F2F2F2 !important;
   /* min-height: 100vh;
   min-width: 100vw;
   display: flex;
@@ -25,7 +25,3 @@ a {
   text-decoration: none;
   color: #fff;
 }
-/* #root {
-  display: flex;
-  flex: 1;
-} */

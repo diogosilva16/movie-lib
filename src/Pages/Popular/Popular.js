@@ -83,15 +83,6 @@ const Popular = () => {
     <Loader />
   ) : (
     <MovieList title="Popular" info={popularMovies} error={hasError}/>
-    // <Container maxWidth="xl">
-    //   <Box pt={5}>
-    //     <Typography variant="h1">Popular</Typography>
-    //     <Typography variant="h6">Movies</Typography>
-    //   </Box>
-    //   <Grid container spacing={5} columnSpacing={5} pt={10} pb={20}>
-    //     {_setPopularMovieList()}
-    //   </Grid>
-    // </Container>
   );
 };
 

@@ -11,6 +11,10 @@ const Theme = createTheme({
       fontSize: "3rem",
       fontWeight: "bold",
     },
+    subtitle2: {
+      fontSize: "2rem",
+      fontWeight: "bold",
+    },
     subtitle1: {
       fontSize: "1.5rem",
       fontWeight: "300",
@@ -23,6 +27,10 @@ const Theme = createTheme({
     body2: {
       fontWeight: "400",
     },
+    h3: {
+      fontWeight: "bold",
+      fontSize: "1.2rem"
+    }
   },
 });
 
