@@ -1,15 +1,4 @@
-import {
-  Grid,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  Typography,
-  Box,
-  Container,
-} from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import MovieList from "../../components/MovieList";
 import Loader from "../../components/Loader";
 
@@ -22,12 +11,13 @@ const Popular = () => {
   const [hasError, setHasError] = useState(false);
   const [popularMovies, setPopularMovies] = useState([]);
   const [movieGenres, setMovieGenres] = useState([]);
+  const [page, setPage] = useState(1);
 
   const fetchPopularMovies = async () => {
     setHasError(false);
     try {
       let response = await fetch(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
+        `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`
       );
       const data = await response.json();
       setPopularMovies(data);
@@ -54,35 +44,12 @@ const Popular = () => {
   useEffect(() => {
     fetchPopularMovies();
     fetchMovieGenres();
-  }, []);
-
-  const _setPopularMovieList = () => {
-    if (popularMovies.results) {
-      return popularMovies.results.map((movie, key) => (
-        <Grid item xs={6} md={3} key={movie.id}>
-          <Link to={`/movie/${movie.id}`}>
-            <Card className="card" sx={{ height: 650 }}>
-              <CardMedia
-                component="img"
-                image={`https://image.tmdb.org/t/p/w342/${movie.poster_path}`}
-                alt={movie.title}
-              />
-              <CardContent>
-                <Typography align="center" variant="h6">
-                  {movie.title}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Link>
-        </Grid>
-      ));
-    }
-  };
+  }, [isLoading]);
 
   return isLoading ? (
     <Loader />
   ) : (
-    <MovieList title="Popular" info={popularMovies} error={hasError}/>
+    <MovieList title="Popular" info={popularMovies} error={hasError} padding={10}/>
   );
 };
 

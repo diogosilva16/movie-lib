@@ -14,7 +14,7 @@ const Form = styled.form`
   border: 1px solid black;
   width: ${(props) => (props.state ? "15rem" : "2rem")};
   cursor: ${(props) => (props.state ? "auto" : "pointer")};
-  padding: 2rem;
+  padding: 1.5rem;
   @media (min-width: 769px){
     width: ${(props) => (props.state ? "30rem" : "2rem")};
   }

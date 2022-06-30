@@ -58,7 +58,7 @@ const Genre = () => {
     <>
       {!isLoading && hasError && <ErrorHandler error={hasError} />}
       {isLoading && <Loader />}
-      {!isLoading  && !hasError && (<MovieList title={_getGenreName()} info={movieList} />)}
+      {!isLoading  && !hasError && (<MovieList title={_getGenreName()} info={movieList} padding={10}/>)}
     </>
   );
 };

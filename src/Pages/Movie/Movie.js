@@ -1,4 +1,11 @@
-import { Grid, Typography, Box, Container, Button } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Box,
+  Container,
+  Button,
+  Rating,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./Movie.css";
@@ -7,8 +14,9 @@ import { Link } from "react-router-dom";
 import BuildModal from "../../components/BuildModal";
 import Portal from "../../components/utils/Portal";
 import ErrorHandler from "../../components/ErrorHandler";
+import RecMovies from "../../components/RecMovies";
 
-const Movie = (props) => {
+const Movie = () => {
   const API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
 
   const { id } = useParams();
@@ -92,9 +100,7 @@ const Movie = (props) => {
     getMovieProviders();
     getMovieLinks();
     getMovieVideo();
-  }, [isLoading]);
-
-  console.log(movieVideo);
+  }, [id], [isLoading]);
 
   const _setMovieGenres = () => {
     if (movieInfo.genres) {
@@ -113,7 +119,7 @@ const Movie = (props) => {
       return movieProviders.hasOwnProperty("PT") &&
         movieProviders.PT.hasOwnProperty("flatrate") ? (
         movieProviders.PT.flatrate.map((provider, key) => (
-          <Box>
+          <Box pt={2}>
             <img
               src={`https://image.tmdb.org/t/p/w342/${provider.logo_path}`}
               width="100"
@@ -150,19 +156,20 @@ const Movie = (props) => {
               direction="row"
               justifyContent="center"
               alignItems="flex-start"
-              sx={{ backgroundColor: "#BBDDF2", borderRadius: "30px"}}
+              sx={{}}
             >
               <Grid item md={4} xs={12}>
-                <div className="movieCard">
-                  <img width="100%"
+                <Box item className="movieCard">
+                  <img
+                    width="100%"
                     src={`https://image.tmdb.org/t/p/w342/${movieInfo.poster_path}`}
                   />
-                </div>
+                </Box>
               </Grid>
               <Grid item md={8} xs={12}>
                 <Box className="movieDetails">
                   <Grid container>
-                    <Grid item>
+                    <Grid item >
                       <Typography variant="h1">{movieInfo.title}</Typography>
                     </Grid>
                     <Grid item xs={12}>
@@ -177,18 +184,26 @@ const Movie = (props) => {
                       justifyContent="flex-end"
                       mr={10}
                     >
-                      <Typography variant="body2">
-                        Release date: {movieInfo.release_date}
+                      <Typography variant="h4" >
+                        {movieInfo.runtime} min. / {(movieInfo.release_date)}
                       </Typography>
                     </Grid>
                   </Grid>
                   <Box className="movieRating">
-                    <Typography variant="h2" className="rating">
-                      Rating
-                    </Typography>
-                    <Typography variant="body2">
-                      {Math.round(movieInfo.vote_average * 100) / 100}/10
-                    </Typography>
+                    <Grid container pt={1} alignItems="center">
+                      <Grid item>
+                        <Rating
+                          name="movie-rating"
+                          value={movieInfo.vote_average / 2}
+                          precision={0.1}
+                          readOnly
+                          size="large"
+                        />
+                      </Grid>
+                      <Grid item pl={2}>
+                        <Typography>{movieInfo.vote_average}/10</Typography>
+                      </Grid>
+                    </Grid>
                   </Box>
                   <Box className="movieGenres">
                     <Grid container>
@@ -202,11 +217,11 @@ const Movie = (props) => {
                   </Box>
                   <Box className="movieSynopsis">
                     <Typography variant="h2">Synopsis</Typography>
-                    <Typography variant="body2" paddingRight={5}>
+                    <Typography variant="body2" paddingRight={3}>
                       {movieInfo.overview}
                     </Typography>
                   </Box>
-                  <Box className="movieButtons">
+                  <Box className="movieButtons" pt={3}>
                     <Grid container justifyContent="center" alignItems="center">
                       <Grid item xs={12} md={4}>
                         <Typography variant="h2" sx={{ paddingTop: 0 }}>
@@ -215,7 +230,8 @@ const Movie = (props) => {
                       </Grid>
                       <Grid item xs={6} md={4}>
                         <a
-                          href={`https://www.imdb.com/title/${movieLinks.imdb_id}`} target="_blank"
+                          href={`https://www.imdb.com/title/${movieLinks.imdb_id}`}
+                          target="_blank"
                         >
                           <Button variant="contained">
                             <Typography>IMDB</Typography>
@@ -249,6 +265,7 @@ const Movie = (props) => {
               </Grid>
             </Grid>
           </Box>
+          <RecMovies id={id} />
         </Container>
       )}
     </>

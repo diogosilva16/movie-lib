@@ -34,7 +34,7 @@ const SearchPage = () => {
 
   console.log(movies);
 
-  return <MovieList title={name} info={movies} />;
+  return <MovieList title={name} info={movies} padding={10} />;
 };
 
 export default SearchPage;

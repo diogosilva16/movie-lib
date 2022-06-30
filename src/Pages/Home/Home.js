@@ -1,6 +1,5 @@
 import { Container, Box, Typography, Grid } from "@mui/material";
 import React from "react";
-import Input from "../../components/Input";
 
 const Home = () => {
   return (

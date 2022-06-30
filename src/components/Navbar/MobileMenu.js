@@ -55,29 +55,33 @@ function MobileMenu(props) {
       </Grid>
       <Divider />
       <List>
-      <Typography variant="h3" m={1} paddingBottom={2}>Discover</Typography>
-        {MenuData.map((page, index) => {
+        <Typography variant="h3" m={1} paddingBottom={2}>
+          Discover
+        </Typography>
+        {MenuData.map((page, key) => {
           return (
             <Box m={1} className="nav-text">
-              <li key={index}>
-                <Link to={page.path}>
+              <Link to={page.path}>
+                <li key={key}>
                   <Button size="small" startIcon={<CircleIcon />}>
                     {page.title}
                   </Button>
-                </Link>
-              </li>
+                </li>
+              </Link>
             </Box>
           );
         })}
       </List>
       <Divider />
       <List>
-        <Typography variant="h3" m={1} paddingBottom={2}>Genres</Typography>
-        {genreList.genres.map((genre, index) => {
+        <Typography variant="h3" m={1} paddingBottom={2}>
+          Genres
+        </Typography>
+        {genreList.genres.map((genre, key) => {
           return (
             <Box m={1} className="nav-text">
               <Link to={`/genre/${genre.id}`}>
-                <li key={index}>
+                <li key={key}>
                   <Button
                     size="small"
                     startIcon={<CircleIcon />}
@@ -132,10 +136,10 @@ function MobileMenu(props) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
           >
-            <MenuIcon sx={{color: "black"}}/>
+            <MenuIcon sx={{ color: "black" }} />
           </IconButton>
           <Box padding={1}>
-            <SearchBox  />
+            <SearchBox />
           </Box>
         </Toolbar>
       </AppBar>
