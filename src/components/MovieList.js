@@ -8,13 +8,24 @@ import {
   CardMedia,
   CardContent,
   Rating,
+  Button,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
 import noImage from "../img/no_image.svg";
+import PaginationCont from "./PaginationCont";
 
 const MovieList = (props) => {
-  const { title, info, isLoading, error, padding } = props;
+  const {
+    title,
+    info,
+    isLoading,
+    error,
+    padding,
+    page,
+    totalPages,
+    goTo
+  } = props;
 
   const _setMovieList = (movieList) => {
     if (movieList.results) {
@@ -63,17 +74,21 @@ const MovieList = (props) => {
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
+      {/* {!isLoading && hasError && <ErrorHandler error={hasError} />} */}
+      {isLoading && <Loader />}
+      {!isLoading && (
         <Container maxWidth="xl">
           <Box pt={padding}>
             <Typography variant="subtitle2">{title}</Typography>
             <Typography variant="h6">Movies</Typography>
           </Box>
-          <Grid container spacing={5} columnSpacing={5} pt={10} pb={20}>
+          <Grid container spacing={5} columnSpacing={5} pt={10} pb={10}>
             {error ? "<p>error</p>" : _setMovieList(info)}
           </Grid>
+          <Box pb={5}>
+          <PaginationCont page={page} goTo={goTo} totalPages={totalPages} />
+
+          </Box>
         </Container>
       )}
     </>

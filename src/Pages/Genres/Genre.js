@@ -4,7 +4,6 @@ import MovieList from "../../components/MovieList";
 import Loader from "../../components/Loader";
 import ErrorHandler from "../../components/ErrorHandler";
 
-
 const Genre = () => {
   const API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
 
@@ -13,15 +12,20 @@ const Genre = () => {
   const [hasError, setHasError] = useState(false);
   const [movieList, setMovieList] = useState({});
   const [movieGenres, setMovieGenres] = useState({ genres: [] });
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState();
 
   const getMoviesByGenre = async () => {
+    setIsLoading(true);
     setHasError(false);
     try {
       let response = await fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${id}`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${id}&page=${page}`
       );
       const data = await response.json();
       setMovieList(data);
+      setPage(data.page);
+      setTotalPages(500);
     } catch (error) {
       setHasError(true);
     }
@@ -29,7 +33,6 @@ const Genre = () => {
   };
 
   const getGenres = async () => {
-    setIsLoading(false);
     setHasError(false);
     try {
       let response = await fetch(
@@ -42,15 +45,23 @@ const Genre = () => {
     }
     setIsLoading(false);
   };
-  
-  useEffect(() => {
-    getMoviesByGenre();
-    getGenres();
-  }, [id], [isLoading]);
+
+  const goToPage = (value) => {
+    if (movieList) setPage(value);
+  };
+
+  useEffect(
+    () => {
+      getMoviesByGenre();
+      getGenres();
+    },
+    [page, id]
+  );
 
   const _getGenreName = () => {
     if (movieGenres.genres != "") {
-      return movieGenres.genres.filter((genre) => genre.id === Number(id))[0].name;
+      return movieGenres.genres.filter((genre) => genre.id === Number(id))[0]
+        .name;
     }
   };
 
@@ -58,7 +69,16 @@ const Genre = () => {
     <>
       {!isLoading && hasError && <ErrorHandler error={hasError} />}
       {isLoading && <Loader />}
-      {!isLoading  && !hasError && (<MovieList title={_getGenreName()} info={movieList} padding={10}/>)}
+      {!isLoading && !hasError && (
+        <MovieList
+          title={_getGenreName()}
+          page={page}
+          goTo={goToPage}
+          totalPages={totalPages}
+          info={movieList}
+          padding={10}
+        />
+      )}
     </>
   );
 };
