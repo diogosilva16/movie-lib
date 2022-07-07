@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import MovieList from "../../components/MovieList";
 import Loader from "../../components/Loader";
-import { Button } from "@mui/material";
+import ErrorHandler from "../../components/ErrorHandler";
 
 import "./Popular.css";
-import PaginationCont from "../../components/PaginationCont";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const Popular = () => {
-
   let [pageNumber] = useSearchParams();
   const API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
 
@@ -16,10 +14,10 @@ const Popular = () => {
   const [hasError, setHasError] = useState(false);
   const [popularMovies, setPopularMovies] = useState([]);
   const [movieGenres, setMovieGenres] = useState([]);
-  let [page, setPage] = useState(pageNumber.get('page'));
+  let [page, setPage] = useState(pageNumber.get("page"));
   const [totalPages, setTotalPages] = useState();
 
-  if(pageNumber.get('page') === null){
+  if (pageNumber.get("page") === null) {
     page = 1;
   }
 
@@ -54,31 +52,39 @@ const Popular = () => {
     setIsLoading(false);
   };
 
-  useEffect(
-    () => {
-      fetchPopularMovies();
-      fetchMovieGenres();
-    },
-    [page]
-  );
+  useEffect(() => {
+    fetchPopularMovies();
+    fetchMovieGenres();
+  }, [page]);
 
   const goToPage = (value) => {
-    if (popularMovies) {setPage(value)};
+    if (popularMovies) {
+      setPage(value);
+    }
   };
 
-  return isLoading ? (
-    <Loader />
-  ) : (
+  return (
     <>
-      <MovieList
-        title="Popular"
-        info={popularMovies}
-        error={hasError}
-        padding={10}
-        page={page}
-        goTo={goToPage}
-        totalPages={totalPages}
-      />
+      {!isLoading && hasError && (
+        <ErrorHandler
+          error={
+            "Something wrong happened while fetching popular movies :("
+          }
+        />
+      )}
+      {isLoading && <Loader />}
+      {!isLoading && !hasError && (
+        <>
+          <MovieList
+            title="Popular"
+            info={popularMovies}
+            error={hasError}
+            page={page}
+            goTo={goToPage}
+            totalPages={totalPages}
+          />
+        </>
+      )}
     </>
   );
 };

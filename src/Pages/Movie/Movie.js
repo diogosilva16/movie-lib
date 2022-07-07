@@ -139,7 +139,7 @@ const Movie = () => {
 
   return (
     <>
-      {!isLoading && hasError && <ErrorHandler error={hasError} />}
+      {!isLoading && hasError && <ErrorHandler error={"Something wrong happened while fetching movie information :("} />}
       {isLoading && <Loader />}
       {!isLoading && !hasError && (
         <Container maxWidth="xl">

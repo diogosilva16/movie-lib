@@ -11,9 +11,10 @@ import Toolbar from "@mui/material/Toolbar";
 import { MenuData } from "./MenuData";
 import "./Navbar.css";
 import { Link, useParams } from "react-router-dom";
-import { Button, Typography, Grid } from "@mui/material";
+import { Button, Typography, Grid, Skeleton } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import SearchBox from "./SearchBox.js";
+import MenuSkeleton from "./MenuSkeleton";
 const drawerWidth = 280;
 
 function MobileMenu(props) {
@@ -24,7 +25,7 @@ function MobileMenu(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
-  const [genreList, setGenreList] = useState({ genres: [] });
+  const [genreList, setGenreList] = useState([]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -58,42 +59,50 @@ function MobileMenu(props) {
         <Typography variant="h3" m={1} paddingBottom={2}>
           Discover
         </Typography>
-        {MenuData.map((page, key) => {
-          return (
-            <Box m={1} className="nav-text">
-              <Link to={page.path}>
-                <li key={key}>
-                  <Button size="small" startIcon={<CircleIcon />}>
-                    {page.title}
-                  </Button>
-                </li>
-              </Link>
-            </Box>
-          );
-        })}
+        {isLoading ? (
+          <MenuSkeleton size={3} />
+        ) : (
+          MenuData.map((page, key) => {
+            return (
+              <Box m={1} className="nav-text">
+                <Link to={page.path}>
+                  <li key={key}>
+                    <Button size="small" startIcon={<CircleIcon />}>
+                      {page.title}
+                    </Button>
+                  </li>
+                </Link>
+              </Box>
+            );
+          })
+        )}
       </List>
       <Divider />
       <List>
         <Typography variant="h3" m={1} paddingBottom={2}>
           Genres
         </Typography>
-        {genreList.genres.map((genre, key) => {
-          return (
-            <Box m={1} className="nav-text">
-              <Link to={`/genre/${genre.id}`}>
-                <li key={key}>
-                  <Button
-                    size="small"
-                    startIcon={<CircleIcon />}
-                    onClick={getGenres}
-                  >
-                    {genre.name}
-                  </Button>
-                </li>
-              </Link>
-            </Box>
-          );
-        })}
+        {isLoading ? (
+          <MenuSkeleton size={30} />
+        ) : (
+          genreList.genres.map((genre, key) => {
+            return (
+              <Box m={1} className="nav-text">
+                <Link to={`/genre/${genre.id}`}>
+                  <li key={key}>
+                    <Button
+                      size="small"
+                      startIcon={<CircleIcon />}
+                      onClick={getGenres}
+                    >
+                      {genre.name}
+                    </Button>
+                  </li>
+                </Link>
+              </Box>
+            );
+          })
+        )}
       </List>
       <Divider />
       <Grid container justifyContent="center" padding={3}>

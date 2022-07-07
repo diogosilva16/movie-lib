@@ -74,7 +74,7 @@ const Genre = () => {
 
   return (
     <>
-      {!isLoading && hasError && <ErrorHandler error={hasError} />}
+      {!isLoading && hasError && <ErrorHandler error={"Something wrong happened while fetching movies information :("} />}
       {isLoading && <Loader />}
       {!isLoading && !hasError && (
         <MovieList
@@ -83,7 +83,6 @@ const Genre = () => {
           goTo={goToPage}
           totalPages={totalPages}
           info={movieList}
-          padding={10}
         />
       )}
     </>

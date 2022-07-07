@@ -1,5 +1,5 @@
 import React from "react";
-import { CircularProgress, Container, Grid, Typography } from "@mui/material";
+import { CircularProgress, Container, Grid } from "@mui/material";
 
 const Loader = () => {
   return (
@@ -11,7 +11,7 @@ const Loader = () => {
         alignItems="center"
         sx={{ minHeight: "100%" }}
       >
-        {/* <Typography>Loading...</Typography> */}
+        
         <CircularProgress />
       </Grid>
     </Container>

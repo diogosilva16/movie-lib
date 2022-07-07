@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MovieList from "../../components/MovieList";
 import Loader from "../../components/Loader";
-
+import ErrorHandler from "../../components/ErrorHandler";
 const SearchPage = () => {
   const API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
 
@@ -41,17 +41,26 @@ const SearchPage = () => {
     fetchQueryMovies(name);
   }, [name, page]);
 
-  return isLoading ? (
-    <Loader />
-  ) : (
-    <MovieList
-      title={name}
-      info={movies}
-      padding={10}
-      page={page}
-      goTo={goToPage}
-      totalPages={totalPages}
-    />
+  return (
+    <>
+      {!isLoading && hasError && (
+        <ErrorHandler
+          error={
+            "Something wrong happened while searching for movies :("
+          }
+        />
+      )}
+      {isLoading && <Loader />}
+      {!isLoading && !hasError && (
+        <MovieList
+          title={name}
+          info={movies}
+          page={page}
+          goTo={goToPage}
+          totalPages={totalPages}
+        />
+      )}
+    </>
   );
 };
 
