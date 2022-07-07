@@ -5,16 +5,23 @@ import { Button } from "@mui/material";
 
 import "./Popular.css";
 import PaginationCont from "../../components/PaginationCont";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 const Popular = () => {
+
+  let [pageNumber] = useSearchParams();
   const API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
 
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [popularMovies, setPopularMovies] = useState([]);
   const [movieGenres, setMovieGenres] = useState([]);
-  const [page, setPage] = useState(1);
+  let [page, setPage] = useState(pageNumber.get('page'));
   const [totalPages, setTotalPages] = useState();
+
+  if(pageNumber.get('page') === null){
+    page = 1;
+  }
 
   const fetchPopularMovies = async () => {
     setIsLoading(true);
@@ -56,7 +63,7 @@ const Popular = () => {
   );
 
   const goToPage = (value) => {
-    if (popularMovies) setPage(value);
+    if (popularMovies) {setPage(value)};
   };
 
   return isLoading ? (

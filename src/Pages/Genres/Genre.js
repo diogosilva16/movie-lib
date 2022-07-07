@@ -3,17 +3,24 @@ import { useParams } from "react-router-dom";
 import MovieList from "../../components/MovieList";
 import Loader from "../../components/Loader";
 import ErrorHandler from "../../components/ErrorHandler";
+import { useSearchParams } from "react-router-dom";
 
 const Genre = () => {
   const API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
+  let [pageNumber] = useSearchParams();
+
 
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [movieList, setMovieList] = useState({});
   const [movieGenres, setMovieGenres] = useState({ genres: [] });
-  const [page, setPage] = useState(1);
+  let [page, setPage] = useState(pageNumber.get('page'));
   const [totalPages, setTotalPages] = useState();
+
+  if(pageNumber.get('page') === null){
+    page = 1;
+  }
 
   const getMoviesByGenre = async () => {
     setIsLoading(true);

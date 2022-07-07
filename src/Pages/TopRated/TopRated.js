@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
 import Loader from "../../components/Loader";
 import MovieList from "../../components/MovieList";
+import { useSearchParams } from "react-router-dom";
 
 const TopRated = () => {
   const API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
+  let [pageNumber] = useSearchParams();
+
 
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
-  const [page, setPage] = useState(1);
+  let [page, setPage] = useState(pageNumber.get('page'));
   const [totalPages, setTotalPages] = useState();
 
+  if(pageNumber.get('page') === null){
+    page = 1;
+  }
+  
   const fetchTopRatedMovies = async () => {
     setIsLoading(true);
     setHasError(false);
