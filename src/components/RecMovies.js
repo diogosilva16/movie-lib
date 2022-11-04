@@ -44,7 +44,7 @@ const RecMovies = (props) => {
   );
 
   const _setRecMovies = (recMovies) => {
-    if (recMovies) {
+    if (recMovies.length > 0) {
       return (
         <>
           {recMovies.map((movie, key) => (
@@ -69,7 +69,13 @@ const RecMovies = (props) => {
 
   return (
     <>
-      {!isLoading && hasError && <ErrorHandler error={"Something wrong happened while fetching recommended movies :("} />}
+      {!isLoading && hasError && (
+        <ErrorHandler
+          error={
+            "Something wrong happened while fetching recommended movies :("
+          }
+        />
+      )}
       {isLoading && <Loader />}
       {!isLoading && !hasError && (
         <>

@@ -62,11 +62,11 @@ function MobileMenu(props) {
         {isLoading ? (
           <MenuSkeleton size={3} />
         ) : (
-          MenuData.map((page, key) => {
+          MenuData.map((page) => {
             return (
               <Box m={1} className="nav-text">
                 <Link to={page.path}>
-                  <li key={key}>
+                  <li key={page.path}>
                     <Button size="small" startIcon={<CircleIcon />}>
                       {page.title}
                     </Button>
@@ -85,11 +85,11 @@ function MobileMenu(props) {
         {isLoading ? (
           <MenuSkeleton size={30} />
         ) : (
-          genreList.genres.map((genre, key) => {
+          genreList.genres.map((genre) => {
             return (
               <Box m={1} className="nav-text">
                 <Link to={`/genre/${genre.id}`}>
-                  <li key={key}>
+                  <li key={genre.id}>
                     <Button
                       size="small"
                       startIcon={<CircleIcon />}
@@ -111,11 +111,13 @@ function MobileMenu(props) {
           TMDB.
         </Typography>
         <Box padding={5} paddingBottom={1}>
-          <img
-            src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_1-5bdc75aaebeb75dc7ae79426ddd9be3b2be1e342510f8202baf6bffa71d7f5c4.svg"
-            alt="TMDB logo"
-            width={100}
-          />
+          <a href={`https://www.themoviedb.org/`} target="_blank">
+            <img
+              src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_1-5bdc75aaebeb75dc7ae79426ddd9be3b2be1e342510f8202baf6bffa71d7f5c4.svg"
+              alt="TMDB logo"
+              width={100}
+            />
+          </a>
         </Box>
       </Grid>
     </Box>

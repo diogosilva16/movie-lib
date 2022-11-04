@@ -95,21 +95,25 @@ const Movie = () => {
     setPortalOpen(!portalOpen);
   };
 
-  useEffect(() => {
-    getMovieDetails();
-    getMovieProviders();
-    getMovieLinks();
-    getMovieVideo();
-  }, [id], [isLoading]);
+  useEffect(
+    () => {
+      getMovieDetails();
+      getMovieProviders();
+      getMovieLinks();
+      getMovieVideo();
+    },
+    [id],
+    [isLoading]
+  );
 
   const _setMovieGenres = () => {
     if (movieInfo.genres) {
       return movieInfo.genres.map((genre, key) => (
-        <Typography key={key}>
-          <Link to={`/genre/${genre.id}`}>
-            <Button variant="contained">{genre.name}</Button>
-          </Link>
-        </Typography>
+        <Link to={`/genre/${genre.id}`} key={key}>
+          <Button variant="contained" sx={{ minWidth: "10rem" }}>
+            {genre.name}
+          </Button>
+        </Link>
       ));
     }
   };
@@ -139,7 +143,11 @@ const Movie = () => {
 
   return (
     <>
-      {!isLoading && hasError && <ErrorHandler error={"Something wrong happened while fetching movie information :("} />}
+      {!isLoading && hasError && (
+        <ErrorHandler
+          error={"Something wrong happened while fetching movie information :("}
+        />
+      )}
       {isLoading && <Loader />}
       {!isLoading && !hasError && (
         <Container maxWidth="xl">
@@ -160,16 +168,23 @@ const Movie = () => {
             >
               <Grid item md={4} xs={12}>
                 <Box item className="movieCard">
-                  <img
-                    width="100%"
-                    src={`https://image.tmdb.org/t/p/w342/${movieInfo.poster_path}`}
-                  />
+                  {movieInfo.poster_path ? (
+                    <img
+                      width="100%"
+                      src={`https://image.tmdb.org/t/p/w342/${movieInfo.poster_path}`}
+                    />
+                  ) : (
+                    <img
+                      width="100%"
+                      src="https://via.placeholder.com/342x513"
+                    />
+                  )}
                 </Box>
               </Grid>
               <Grid item md={8} xs={12}>
                 <Box className="movieDetails">
                   <Grid container>
-                    <Grid item >
+                    <Grid item>
                       <Typography variant="h1">{movieInfo.title}</Typography>
                     </Grid>
                     <Grid item xs={12}>
@@ -184,8 +199,8 @@ const Movie = () => {
                       justifyContent="flex-end"
                       mr={10}
                     >
-                      <Typography variant="h4" >
-                        {movieInfo.runtime} min. / {(movieInfo.release_date)}
+                      <Typography variant="h4">
+                        {movieInfo.runtime} min. / {movieInfo.release_date}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -195,13 +210,15 @@ const Movie = () => {
                         <Rating
                           name="movie-rating"
                           value={movieInfo.vote_average / 2}
-                          precision={0.1}
+                          precision={0.2}
                           readOnly
                           size="large"
                         />
                       </Grid>
                       <Grid item pl={2}>
-                        <Typography>{movieInfo.vote_average}/10</Typography>
+                        <Typography>
+                          {Math.round(movieInfo.vote_average * 10) / 10}/10
+                        </Typography>
                       </Grid>
                     </Grid>
                   </Box>

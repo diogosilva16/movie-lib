@@ -19,7 +19,7 @@ const MovieCard = (props) => {
         image={`${
           movie.poster_path !== null
             ? `https://image.tmdb.org/t/p/w342/${movie.poster_path}`
-            : "https://via.placeholder.com/342x600"
+            : "https://via.placeholder.com/342x513"
         }`}
         alt={movie.title}
       />
@@ -32,7 +32,7 @@ const MovieCard = (props) => {
             precision={0.1}
             readOnly
           />
-          <Typography>({movie.vote_average})</Typography>
+          <Typography>{Math.round(movie.vote_average * 10) / 10}</Typography>
         </Grid>
       </CardContent>
     </Card>

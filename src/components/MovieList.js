@@ -1,19 +1,13 @@
 import React from "react";
-import {
-  Container,
-  Box,
-  Typography,
-  Grid,
-} from "@mui/material";
+import { Container, Box, Typography, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import noImage from "../img/no_image.svg";
 import PaginationCont from "./PaginationCont";
 import MovieCard from "./MovieCard";
 
 const MovieList = (props) => {
-  const { title, info, isLoading, error, page, totalPages, goTo } =
-    props;
-
+  const { title, info, isLoading, error, page, totalPages, goTo } = props;
+  
   const _setMovieList = (movieList) => {
     if (movieList.results) {
       return movieList.results.map((movie, key) => (
