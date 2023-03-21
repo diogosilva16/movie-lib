@@ -3,9 +3,6 @@
 # Movie Library - ReactJS
 ##### Personal project to enhance my React skills. No state management library has been used (yet), so the data is stored in the browser. Will be updated as time goes on (new versions will be made with different technologies, ie: Redux, ...).
 
-## Project is live!
-You can check the live version of this project here: [MOVIE LIBRARY](https://moviepic.netlify.app/)
-
 ### Prerequisites
 
 You need to create an API KEY in [The Movie Database API](https://www.themoviedb.org/documentation/api).
